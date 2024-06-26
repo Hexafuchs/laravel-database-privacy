@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class PrivacyFriendlyDatabaseSessionHandlerCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-database-privacy';
 
     public $description = 'My command';
 

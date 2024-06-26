@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "hexafuchs/laravel-database-privacy",
+    "description": "Less privacy intrusive database session handler",
     "keywords": [
-        ":vendor_name",
+        "Hexafuchs",
         "laravel",
-        ":package_slug"
+        "laravel-database-privacy"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/hexafuchs/laravel-database-privacy",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Leo",
+            "email": "leo@hexafuchs.de",
             "role": "Developer"
         }
     ],
@@ -35,19 +35,19 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Hexafuchs\\PrivacyFriendlyDatabaseSessionHandler\\": "src/",
+            "Hexafuchs\\PrivacyFriendlyDatabaseSessionHandler\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Hexafuchs\\PrivacyFriendlyDatabaseSessionHandler\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
-        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "clear": "@php vendor/bin/testbench package:purge-laravel-database-privacy --ansi",
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "build": [
             "@composer run prepare",
@@ -73,10 +73,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Hexafuchs\\PrivacyFriendlyDatabaseSessionHandler\\PrivacyFriendlyDatabaseSessionHandlerServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "PrivacyFriendlyDatabaseSessionHandler": "Hexafuchs\\PrivacyFriendlyDatabaseSessionHandler\\Facades\\PrivacyFriendlyDatabaseSessionHandler"
             }
         }
     },
