@@ -2,12 +2,16 @@
 
 namespace Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\PrivacyFriendlyDatabaseSessionHandlerServiceProvider;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Filesystem\Filesystem;
+use Orchestra\Testbench\Concerns\WithWorkbench;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
+    use WithWorkbench;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -27,7 +31,8 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
-
+        config()->set('database.connections.testing.database', __DIR__.'/test.db');
+        (new Filesystem())->replace(__DIR__.'/test.db', '');
         /*
         $migration = include __DIR__.'/../database/migrations/create_laravel-database-privacy_table.php.stub';
         $migration->up();
