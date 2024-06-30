@@ -2,9 +2,8 @@
 
 namespace Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\Commands;
 
-use Symfony\Component\Console\Attribute\AsCommand;
-
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'session:handler')]
 class SessionHandlerCommand extends Command
