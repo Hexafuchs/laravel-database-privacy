@@ -10,10 +10,20 @@ beforeEach(function () {
     DB::statement('VACUUM');
 });
 
-it('can run migration', function () {
+it('can run hooked migration', function () {
     (new Filesystem())->cleanDirectory(app()->databasePath('/migrations'));
 
     $this->artisan('make:session-table')->assertSuccessful();
+    $this->artisan('migrate')->assertSuccessful();
+    expect(Schema::hasTable('sessions'))->toBeTrue()
+        ->and(Schema::hasColumn('sessions', 'ip_address'))->toBeFalse()
+        ->and(Schema::hasColumn('sessions', 'user_agent'))->toBeFalse();
+});
+
+it('can run own migration', function () {
+    (new Filesystem())->cleanDirectory(app()->databasePath('/migrations'));
+
+    $this->artisan('make:privacy-session-table')->assertSuccessful();
     $this->artisan('migrate')->assertSuccessful();
     expect(Schema::hasTable('sessions'))->toBeTrue()
         ->and(Schema::hasColumn('sessions', 'ip_address'))->toBeFalse()

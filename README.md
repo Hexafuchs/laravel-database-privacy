@@ -27,6 +27,8 @@ php artisan make:privacy-session-table
 The package also tries to hook into the original command, but you should check your migration file to make sure 
 `ìp_address` and `user_agent` are missing.
 
+Also, of course, change your session handler to `database` in your `.env` or using the method of you prefer.
+
 To check everything is working correctly, you can execute the following command 
 (assuming your session handler is the same in the CLI and on the webserver):
 ```bash

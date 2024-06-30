@@ -4,6 +4,7 @@ namespace Hexafuchs\PrivacyFriendlyDatabaseSessionHandler;
 
 use Hexafuchs\DynamicArtisanServiceProvider\DynamicArtisanServiceProvider;
 use Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\Commands\OrchestraSessionTableCommand;
+use Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\Commands\PrivacySessionTableCommand;
 use Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\Commands\SessionHandlerCommand;
 use Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\Commands\SessionTableCommand;
 use Illuminate\Contracts\Foundation\Application;
@@ -24,7 +25,7 @@ class PrivacyFriendlyDatabaseSessionHandlerServiceProvider extends PackageServic
         $package
             ->name('laravel-database-privacy')
             ->hasRoute('web')
-            ->hasCommand(SessionTableCommand::class)
+            ->hasCommand(PrivacySessionTableCommand::class)
             ->hasCommand(SessionHandlerCommand::class);
     }
 
