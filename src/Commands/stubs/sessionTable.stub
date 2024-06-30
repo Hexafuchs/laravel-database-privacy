@@ -19,7 +19,6 @@ return new class extends Migration
                 $table->integer('last_activity')->index();
             });
         } else {
-            // This is primarily for the testing framework workbench to work, we do not recover anything when reversing the migration
             Schema::table('sessions', function (Blueprint $table) {
                 if (Schema::hasColumn('sessions', 'ip_address')) {
                     $table->dropColumn('ip_address');
@@ -36,6 +35,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sessions');
+        Schema::table('sessions', function (Blueprint $table) {
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+        });
     }
 };
