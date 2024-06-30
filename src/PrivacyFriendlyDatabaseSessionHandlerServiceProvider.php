@@ -2,8 +2,11 @@
 
 namespace Hexafuchs\PrivacyFriendlyDatabaseSessionHandler;
 
+use Hexafuchs\DynamicArtisanServiceProvider\DynamicArtisanServiceProvider;
 use Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\Commands\OrchestraSessionTableCommand;
+use Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\Commands\SessionTableCommand;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Session\Console\SessionTableCommand as OldSessionTableCommand;
 use Illuminate\Support\Facades\Session;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -25,6 +28,9 @@ class PrivacyFriendlyDatabaseSessionHandlerServiceProvider extends PackageServic
 
     public function registeringPackage(): void
     {
+        DynamicArtisanServiceProvider::registerCommand('SessionTable', OldSessionTableCommand::class, function (Application $app) {
+            return new SessionTableCommand($app['files']);
+        });
 
         if (class_exists("Orchestra\Canvas\Console\SessionTableCommand")) {
             $this->app->bind(\Orchestra\Canvas\Console\SessionTableCommand::class, function (Application $app) {
