@@ -5,15 +5,9 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/hexafuchs/laravel-database-privacy/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/hexafuchs/laravel-database-privacy/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/hexafuchs/laravel-database-privacy.svg?style=flat-square)](https://packagist.org/packages/hexafuchs/laravel-database-privacy)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-database-privacy.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-database-privacy)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+The default database session handler of Laravel stores the IP and User Agent in the session. This is problematic in 
+many ways, as this is data that is unnecessary, not well protected, and not even used anywhere, also leading to issues 
+with the GDPR. This database handler is exactly the same as the original one, but removes this unnecessary data.  
 
 ## Installation
 
@@ -23,37 +17,29 @@ You can install the package via composer:
 composer require hexafuchs/laravel-database-privacy
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="laravel-database-privacy-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="laravel-database-privacy-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="laravel-database-privacy-views"
-```
-
 ## Usage
 
+If you want to make sure you get the session table of this package, use the following artisan command:
+```bash
+php artisan make:privacy-session-table
+```
+
+The package also tries to hook into the original command, but you should check your migration file to make sure 
+`ìp_address` and `user_agent` are missing.
+
+To check everything is working correctly, you can execute the following command 
+(assuming your session handler is the same in the CLI and on the webserver):
+```bash
+php artisan session:handler
+```
+It should return `Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\PrivacyFriendlyDatabaseSessionHandler`.
+
+If it does not work, try manually adding the provider to your `bootstrap/providers.php`:
 ```php
-$privacyFriendlyDatabaseSessionHandler = new Hexafuchs\PrivacyFriendlyDatabaseSessionHandler();
-echo $privacyFriendlyDatabaseSessionHandler->echoPhrase('Hello, Hexafuchs!');
+return [
+    ...,
+    \Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\PrivacyFriendlyDatabaseSessionHandlerServiceProvider::class,
+];
 ```
 
 ## Testing
@@ -65,19 +51,6 @@ composer test
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
-## Credits
-
-- [Leo](https://github.com/EinfachLeo)
-- [All Contributors](../../contributors)
 
 ## License
 

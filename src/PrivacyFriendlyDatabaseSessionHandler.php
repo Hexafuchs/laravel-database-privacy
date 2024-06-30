@@ -7,10 +7,7 @@ use Illuminate\Session\DatabaseSessionHandler;
 class PrivacyFriendlyDatabaseSessionHandler extends DatabaseSessionHandler
 {
     /**
-     * Add the request information to the session payload.
-     *
-     * @param  array  $payload
-     * @return $this
+     * This method overwrites the base method. It does not add anything.s
      */
     protected function addRequestInformation(&$payload): static
     {
