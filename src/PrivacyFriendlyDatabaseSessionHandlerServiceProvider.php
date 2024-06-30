@@ -2,9 +2,11 @@
 
 namespace Hexafuchs\PrivacyFriendlyDatabaseSessionHandler;
 
+use Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\Commands\OrchestraSessionTableCommand;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Session;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Hexafuchs\PrivacyFriendlyDatabaseSessionHandler\Commands\PrivacyFriendlyDatabaseSessionHandlerCommand;
 
 class PrivacyFriendlyDatabaseSessionHandlerServiceProvider extends PackageServiceProvider
 {
@@ -17,9 +19,32 @@ class PrivacyFriendlyDatabaseSessionHandlerServiceProvider extends PackageServic
          */
         $package
             ->name('laravel-database-privacy')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel-database-privacy_table')
-            ->hasCommand(PrivacyFriendlyDatabaseSessionHandlerCommand::class);
+            ->hasRoute('web')
+            ->hasCommand(SessionTableCommand::class);
+    }
+
+    public function registeringPackage(): void
+    {
+
+        if (class_exists("Orchestra\Canvas\Console\SessionTableCommand")) {
+            $this->app->bind(\Orchestra\Canvas\Console\SessionTableCommand::class, function (Application $app) {
+                return new OrchestraSessionTableCommand($app['files']);
+            });
+        }
+    }
+
+    public function boot(): PackageServiceProvider
+    {
+        $provider = parent::boot();
+
+        Session::extend('database', function (Application $app) {
+            $lifetime = $app['config']->get('session.lifetime');
+            $table = $app['config']->get('session.table');
+            $connection = $app['db']->connection($app['config']->get('session.connection'));
+
+            return new PrivacyFriendlyDatabaseSessionHandler($connection, $table, $lifetime, $app);
+        });
+
+        return $provider;
     }
 }
