@@ -31,11 +31,9 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
+        config()->set('database.connections.testing.driver', 'sqlite');
         config()->set('database.connections.testing.database', __DIR__.'/test.db');
         (new Filesystem())->replace(__DIR__.'/test.db', '');
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_laravel-database-privacy_table.php.stub';
-        $migration->up();
-        */
+        config()->set('session.driver', 'database');
     }
 }
