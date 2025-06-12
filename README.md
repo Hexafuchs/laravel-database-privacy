@@ -1,3 +1,5 @@
+# Moved to https://codeberg.org/Hexafuchs/laravel-database-privacy
+
 # Less privacy intrusive database session handler
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/hexafuchs/laravel-database-privacy.svg?style=flat-square)](https://packagist.org/packages/hexafuchs/laravel-database-privacy)
